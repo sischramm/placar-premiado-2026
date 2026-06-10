@@ -1,19 +1,17 @@
-
-import {
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-window.signInWithEmailAndPassword =
-  signInWithEmailAndPassword;
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
-  getAuth
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
-  getFirestore
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -27,5 +25,17 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+window.auth = getAuth(app);
+window.db = getFirestore(app);
+
+window.createUserWithEmailAndPassword =
+  createUserWithEmailAndPassword;
+
+window.signInWithEmailAndPassword =
+  signInWithEmailAndPassword;
+
+window.signOut = signOut;
+
+window.doc = doc;
+window.setDoc = setDoc;
+window.getDoc = getDoc;
