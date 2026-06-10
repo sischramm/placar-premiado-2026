@@ -15,10 +15,45 @@ function cadastrar(){
   if(!document.getElementById('termo').checked){
 
     alert('Aceite o regulamento');
-
     return;
 
   }
+
+  const cpf =
+    document.getElementById('cpf').value;
+
+  if(!validarCPF(cpf)){
+
+    alert('CPF inválido');
+    return;
+
+  }
+
+  const dados = {
+
+    nome: document.getElementById('nome').value,
+    cpf: cpf,
+    empresa: document.getElementById('empresa').value,
+    filial: document.getElementById('filial').value,
+    email: document.getElementById('email').value,
+    usuario: document.getElementById('usuario').value,
+    senha: document.getElementById('senha').value
+
+  };
+
+  mostrarLoading();
+
+  esconderLoading();
+
+  console.log(
+    'Cadastro pronto para API'
+  );
+
+  alert(
+    'Cadastro será conectado à planilha na próxima etapa.'
+  );
+
+}
 
   const cpf =
     document.getElementById('cpf').value;
