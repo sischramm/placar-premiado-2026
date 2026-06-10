@@ -2,10 +2,10 @@
 
 let usuarioLogado = '';
 
-function login(){function login(){
+function login(){
 
   alert(
-    'Login ainda será conectado à planilha.'
+    'Login será conectado à API em breve.'
   );
 
 }
@@ -2146,6 +2146,10 @@ window.onload = function(){
 
   carregarEmpresas();
 
+  console.log(
+    'Sistema iniciado'
+  );
+
 }
 
 function sair(){
@@ -2635,16 +2639,19 @@ function carregarEmpresas(){
   const empresa =
     document.getElementById('empresa');
 
-  if(!empresa) return;
+  if(!empresa){
+    return;
+  }
 
   empresa.innerHTML = `
     <option value="">
       Selecione a Empresa
     </option>
-    <option value="Shark">
-      Shark
-    </option>
   `;
+
+  console.log(
+    'Empresas carregadas localmente'
+  );
 
 }
 
