@@ -2,80 +2,11 @@
 
 let usuarioLogado = '';
 
-function login(){
+function login(){function login(){
 
-  const usuario =
-    document.getElementById('loginUsuario').value;
-
-  const senha =
-    document.getElementById('loginSenha').value;
-
-  mostrarLoading();
-
-  google.script.run
-    .withSuccessHandler(res => {
-
-      if(res.sucesso){
-
-        usuarioLogado = res.usuario;
-
-        /* ========= SALVAR SESSAO ========= */
-
-        localStorage.setItem(
-          'usuarioLogado',
-          res.usuario
-        );
-
-        /* ========= MOSTRAR PAINEL ========= */
-
-        document.getElementById('painel').style.display =
-          'block';
-
-        document.getElementById('login').style.display =
-          'none';
-
-        document.getElementById('cadastro').style.display =
-          'none';
-
-        /* ========= CARREGAMENTOS ========= */
-
-        carregarJogos();
-
-        carregarPaisesExtras();
-
-        carregarRanking();
-
-        carregarRankingCompleto();
-
-        carregarPerfil();
-
-        carregarExtras();
-
-        verificarAdmin();
-
-        iniciarAutoRefresh();
-
-        esconderLoading();
-
-      } else {
-
-        esconderLoading();
-
-        alert('Usuário ou senha inválidos');
-
-      }
-
-    })
-    .withFailureHandler(err => {
-
-      esconderLoading();
-
-      console.error(err);
-
-      alert('Erro ao realizar login');
-
-    })
-    .validarLogin(usuario, senha);
+  alert(
+    'Login ainda será conectado à planilha.'
+  );
 
 }
 
@@ -2701,36 +2632,19 @@ let empresasFiliais = {};
 
 function carregarEmpresas(){
 
-  google.script.run
-    .withSuccessHandler(function(dados){
+  const empresa =
+    document.getElementById('empresa');
 
-      empresasFiliais = dados;
+  if(!empresa) return;
 
-      const empresa =
-        document.getElementById('empresa');
-
-      empresa.innerHTML =
-        '<option value="">Selecione a Empresa</option>';
-
-      Object.keys(dados)
-
-        .sort((a,b) =>
-          a.localeCompare(
-            b,
-            'pt-BR',
-            { sensitivity:'base' }
-          )
-        )
-
-        .forEach(nome => {
-
-          empresa.innerHTML +=
-            `<option value="${nome}">${nome}</option>`;
-
-        });
-
-    })
-    .obterEmpresasFiliais();
+  empresa.innerHTML = `
+    <option value="">
+      Selecione a Empresa
+    </option>
+    <option value="Shark">
+      Shark
+    </option>
+  `;
 
 }
 
