@@ -1,0 +1,1 @@
+# placar-premiado-2026
