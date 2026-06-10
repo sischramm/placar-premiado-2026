@@ -38,17 +38,18 @@ async function login(){
 
     alert("Login realizado!");
 
-  }catch(err){
+   }catch(err){
 
     console.error(err);
 
-    alert(
-      "Usuário ou senha inválidos"
-    );
+    alert(err.message);
 
   }
 
 }
+
+let grupoAtual = 0;
+let gruposLista = [];
 
 async function cadastrar(){
 
