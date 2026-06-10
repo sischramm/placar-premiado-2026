@@ -3,218 +3,124 @@ let usuarioLogado = '';
 
 async function login(){
 
-const usuario =
-document.getElementById('loginUsuario').value;
+  const email =
+    document.getElementById('loginUsuario').value;
 
-const senha =
-document.getElementById('loginSenha').value;
+  const senha =
+    document.getElementById('loginSenha').value;
 
-mostrarLoading();
+  try{
 
-try{
+    const credencial =
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        senha
+      );
 
-```
-const resposta =
-  await fetch('/api/login', {
+    usuarioLogado =
+      credencial.user.uid;
 
-    method: 'POST',
+    localStorage.setItem(
+      "usuarioLogado",
+      usuarioLogado
+    );
 
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    document.getElementById(
+      'painel'
+    ).style.display = 'block';
 
-    body: JSON.stringify({
-      usuario,
-      senha
-    })
+    document.getElementById(
+      'loginSistema'
+    ).style.display = 'none';
 
-  });
+    carregarPerfil();
 
-const res =
-  await resposta.json();
+    alert("Login realizado!");
 
-if(res.sucesso){
+  }catch(err){
 
-  usuarioLogado =
-    res.usuario;
+    console.error(err);
 
-  localStorage.setItem(
-    'usuarioLogado',
-    res.usuario
-  );
+    alert(
+      "Usuário ou senha inválidos"
+    );
 
-  document.getElementById('painel').style.display =
-    'block';
-
-  document.getElementById('login').style.display =
-    'none';
-
-  document.getElementById('cadastro').style.display =
-    'none';
-
-  carregarJogos();
-
-  carregarPaisesExtras();
-
-  carregarRanking();
-
-  carregarRankingCompleto();
-
-  carregarPerfil();
-
-  carregarExtras();
-
-  verificarAdmin();
-
-  iniciarAutoRefresh();
-
-} else {
-
-  alert(
-    res.mensagem ||
-    'Usuário ou senha inválidos'
-  );
-
-}
-```
-
-} catch(err){
-
-```
-console.error(err);
-
-alert(
-  'Erro ao realizar login'
-);
-```
-
-}
-
-esconderLoading();
+  }
 
 }
 
 async function cadastrar(){
 
-  if(!document.getElementById('termo').checked){
-
-    alert('Aceite o regulamento');
-
-    return;
-
-  }
+  const nome =
+    document.getElementById('nome').value;
 
   const cpf =
     document.getElementById('cpf').value;
 
-  if(!validarCPF(cpf)){
+  const empresa =
+    document.getElementById('empresa').value;
 
-    alert('CPF inválido');
+  const filial =
+    document.getElementById('filial').value;
 
+  const email =
+    document.getElementById('email').value;
+
+  const senha =
+    document.getElementById('senha').value;
+
+  const termo =
+    document.getElementById('termo').checked;
+
+  if(!termo){
+    alert('Aceite o regulamento');
     return;
+  }
+
+  try{
+
+    const credencial =
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        senha
+      );
+
+    await setDoc(
+      doc(
+        db,
+        "usuarios",
+        credencial.user.uid
+      ),
+      {
+        nome,
+        cpf,
+        empresa,
+        filial,
+        email,
+        pontos:0,
+        admin:false,
+        dataCadastro:
+          new Date().toISOString()
+      }
+    );
+
+    alert(
+      "Cadastro realizado com sucesso!"
+    );
+
+  }catch(err){
+
+    console.error(err);
+
+    alert(err.message);
 
   }
-  
-const dados = {
 
-nome:
-document.getElementById('nome').value,
-
-cpf:
-cpf,
-
-empresa:
-document.getElementById('empresa').value,
-
-filial:
-document.getElementById('filial').value,
-
-email:
-document.getElementById('email').value,
-
-usuario:
-document.getElementById('usuario').value,
-
-senha:
-document.getElementById('senha').value
-
-};
-
-mostrarLoading();
-
-try{
-
-const resposta =
-await fetch('/api/cadastro', {
-
-```
-  method: 'POST',
-
-  headers: {
-    'Content-Type': 'application/json'
-  },
-
-  body: JSON.stringify(dados)
-
-});
-```
-
-const res =
-await resposta.json();
-
-esconderLoading();
-
-if(res.sucesso){
-
-```
-usuarioLogado =
-  dados.usuario;
-
-localStorage.setItem(
-  'usuarioLogado',
-  dados.usuario
-);
-
-document.getElementById('painel')
-  .style.display = 'block';
-
-document.getElementById('login')
-  .style.display = 'none';
-
-document.getElementById('cadastro')
-  .style.display = 'none';
-
-carregarJogos();
-
-carregarRanking();
-
-carregarRankingCompleto();
-
-carregarPerfil();
-
-carregarExtras();
-
-verificarAdmin();
-
-iniciarAutoRefresh();
-
-alert(
-  'Cadastro realizado com sucesso'
-);
-```
-
-}else{
-
-```
-alert(
-  res.mensagem ||
-  'Erro ao cadastrar'
-);
-```
-}
 }
 
-}catch(err){
+catch(err){
 
 esconderLoading();
 
